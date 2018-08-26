@@ -216,6 +216,18 @@ app.post('/MeOw' , (req , res) => {
         }
     )
 });
+app.post('/time' , (req , res) => {
+    apiAuthorization(req, res).then(function(result){
+        if(result == false){
+            res.status(401).send("Your request has been denied! Please check that you are using the proper AUTH header and API key")
+        }else if (result == true){
+            result = JSON.stringify({ Time: time.Date(), Timestamp: time.Date() })
+            res.send(result);
+            console.log("API Call to Time from: " + req.ip)
+}
+        }
+    )
+});
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
@@ -274,6 +286,7 @@ function apiAuthorization(req, res){
         })).then(api => {
             if(api == null){
                 fulfill(false);
+                console.log("Denied a request from: " + req.ip);
             }else{
                 parsed = api.get({
                     plain: true
